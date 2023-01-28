@@ -127,9 +127,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                     photoFile = createPhotoFile();
+
+                    Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                     Uri fileUri = FileProvider.getUriForFile(getApplicationContext(), "com.example.fileproviders", photoFile);
 
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
 
                     //StartActivity
@@ -235,12 +236,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 imageView.setImageBitmap(image);
 
-                classifyImage(image);
+                index = classifyImage(image);
             } else if (requestCode == REQUEST_CAPTURE_IMAGE) {
                 Log.d("ML", "received callback from camera");
                 Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 imageView.setImageBitmap(bitmap);
-                classifyImage(bitmap);
+                imageView.setRotation(90);
+                index = classifyImage(bitmap);
             }
         }
 
