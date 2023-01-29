@@ -58,13 +58,13 @@ import app.ij.mlwithtensorflowlite.ml.Model;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button camera, gallery;
+    Button camera, gallery, dashboard;
     ImageView imageView;
     TextView result;
     int imageSize = 224;
 
-    int cracked = 0;
-    int uncracked = 0;
+    public static int cracked = 0;
+    public static int uncracked = 0;
 
     private static final int PERMISSION_REQUEST_CODE = 123;
     private int REQUEST_PICK_IMAGE = 1000;
@@ -111,8 +111,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        camera = findViewById(R.id.button);
+        camera = findViewById(R.id.button3);
         gallery = findViewById(R.id.button2);
+        dashboard = findViewById(R.id.button4);
 
         result = findViewById(R.id.result);
         imageView = findViewById(R.id.imageView);
@@ -148,6 +149,14 @@ public class MainActivity extends AppCompatActivity {
                 cameraIntent.setType("image/*");
 
                 startActivityForResult(cameraIntent, REQUEST_PICK_IMAGE);
+            }
+        });
+
+        dashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+                startActivity(intent);
             }
         });
     }
@@ -235,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 imageView.setImageBitmap(image);
+//                imageView.setRotation(45);
 
                 index = classifyImage(image);
             } else if (requestCode == REQUEST_CAPTURE_IMAGE) {
